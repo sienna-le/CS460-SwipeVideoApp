@@ -40,11 +40,19 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return videoItems.size();
     }
 
+    /**
+     * Set up videos and data to be played
+     */
     static class VideoViewHolder extends RecyclerView.ViewHolder {
         TextView textVideoTitle, textVideoDescription;
         VideoView videoView;
         ProgressBar progressBar;
 
+        /**
+         * Link items to the view, title, description and progress bar set up in xml
+         *
+         * @param itemView
+         */
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
             videoView = itemView.findViewById(R.id.videoView);
@@ -52,7 +60,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             textVideoDescription = itemView.findViewById(R.id.textVideoDescription);
             progressBar = itemView.findViewById(R.id.videoProgressBar);
         }
-//set up video data
+
+        /**
+         * Set up video data to be played accordingly
+         *
+         * @param videoItem video that will be played on app screen
+         */
         void setVideoData(VideoItem videoItem){
             textVideoTitle.setText(videoItem.videoTitle);
             textVideoDescription.setText(videoItem.videoDescription);
@@ -77,6 +90,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
             });
 
+            /**
+             * Set up next video to be played automatically after swipe
+             */
             videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
