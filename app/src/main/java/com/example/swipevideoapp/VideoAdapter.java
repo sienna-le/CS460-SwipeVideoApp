@@ -1,7 +1,9 @@
 package com.example.swipevideoapp;
 
 import android.media.MediaPlayer;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -11,12 +13,31 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class VideoAdapter {
+public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder>{
 
     private List<VideoItem> videoItems;
 
     public VideoAdapter(List<VideoItem> videoItems) {
         this.videoItems = videoItems;
+    }
+
+    @NonNull
+    @Override
+    public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new VideoViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_constainer_video,parent,false)
+        );
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
+        holder.setVideoData(videoItems.get(position));
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return videoItems.size();
     }
 
     static class VideoViewHolder extends RecyclerView.ViewHolder {
@@ -41,6 +62,7 @@ public class VideoAdapter {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                     progressBar.setVisibility(View.GONE);
+                    mp.start();
 
                     float videoRatio = mp.getVideoWidth() / (float) mp.getVideoHeight();
                     float screenRatio = videoView.getWidth()/(float) videoView.getHeight();
@@ -61,6 +83,7 @@ public class VideoAdapter {
                     mp.start();
                 }
             });
+
         }
     }
 }
